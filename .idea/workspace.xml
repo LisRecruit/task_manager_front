@@ -4,22 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="687653e5-0638-4215-9093-d79d317420cf" name="Changes" comment="1">
-      <change beforePath="$PROJECT_DIR$/.idea/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pages/main_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pages/main_page.html" afterDir="false" />
+    <list default="true" id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/css/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/js/httpMethods.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/js/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/js/registration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pages/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pages/main_page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pages/registration.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -28,51 +27,43 @@
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="35pUW3UCfkIcgekxZ6QlTdIjgg8" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="35y5cFtqMhXpZXM1Ydkus4u7gVb" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Lis/IdeaProjects/study-platform-front"
+    "last_opened_file_path": "C:/Users/Lis/IdeaProjects/task_manager_front"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Lis\IdeaProjects\task_manager_front\.idea\pages" />
-      <recent name="C:\Users\Lis\IdeaProjects\task_manager_front\.idea\js" />
-    </key>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="task_manager_front" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="task_manager_front" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="687653e5-0638-4215-9093-d79d317420cf" name="Changes" comment="" />
-      <created>1763757223965</created>
+      <changelist id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="" />
+      <created>1764069552517</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1763757223965</updated>
+      <updated>1764069552517</updated>
     </task>
-    <task id="LOCAL-00001" summary="1">
-      <option name="closed" value="true" />
-      <created>1763806767473</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1763806767473</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
   </component>
 </project>
