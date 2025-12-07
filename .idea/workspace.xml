@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/css/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/js/httpMethods.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/js/login.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/js/registration.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pages/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pages/main_page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pages/registration.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="worked with table on main_page">
+      <change afterPath="$PROJECT_DIR$/js/authUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/tableApi.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/tableBuilder.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/tableFilter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,9 +31,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Lis/IdeaProjects/task_manager_front"
+    "last_opened_file_path": "C:/Users/Lis/IdeaProjects/task_manager"
   }
 }]]></component>
   <component name="RunManager">
@@ -64,6 +61,19 @@
       <option name="presentableId" value="Default" />
       <updated>1764069552517</updated>
     </task>
+    <task id="LOCAL-00001" summary="worked with table on main_page">
+      <option name="closed" value="true" />
+      <created>1764599106047</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764599106047</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="worked with table on main_page" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked with table on main_page" />
   </component>
 </project>
