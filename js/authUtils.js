@@ -1,5 +1,20 @@
-export function getUserFromToken() {
+export function getToken() {
     const token = localStorage.getItem("token");
+    if (!token) throw new Error("No token found");
+    return token;
+}
+
+
+
+export function getUserIdFromToken() {
+    let token;
+    try {
+        token = getToken();
+    } catch (e) {
+        return null;
+    }
+    console.log("token: " + token);
+
     if (!token) return null;
 
     const payload = token.split(".")[1];
@@ -7,22 +22,33 @@ export function getUserFromToken() {
 
     try {
         const decoded = JSON.parse(atob(payload));
-        return {
-            id: decoded.id,
-            roles: decoded.roles || []
-        };
+
+        if (!decoded.user_id) {
+             console.error("Token payload is missing 'user_id' field.", decoded);
+             return null;
+        }
+
+        return String(decoded.user_id);
+
     } catch (e) {
         console.error("Failed to decode token", e);
         return null;
     }
 }
 export function canEdit(field, task) {
-    const user = getUserFromToken();
-    if (!user) return false;
+    console.log("Field: "+field);
+    console.log("Task: "+task);
 
-    const isCreator = String(user.id) === String(task.taskSetById);
-    const isResponsible = String(user.id) === String(task.responsiblePersonId);
-    const isManager = String(user.id) === String(task.directManagerId);
+    const userId = getUserIdFromToken();
+    if (!userId) return false;
+
+    console.log("User id:"+userId);
+    const isCreator = userId === String(task.taskSetById);
+    console.log("is creator"+isCreator);
+    const isResponsible = userId === String(task.responsiblePersonId);
+    console.log("is responsible"+isResponsible);
+    const isManager = userId === String(task.directManagerId);
+    console.log("is manager"+isManager);
 
     switch (field) {
         case "taskComplete":

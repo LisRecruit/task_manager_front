@@ -6,7 +6,8 @@ export function initTableFilters(getTasksFn) {
     const applyBtn = document.getElementById("applyFilters");
     applyBtn.addEventListener("click", () => {
         const filter = {
-            taskComplete: taskCompleteSelect.value ? taskCompleteSelect.value === "true" : null,
+//            taskComplete: taskCompleteSelect.value ? taskCompleteSelect.value === "true" : null,
+            taskComplete: taskCompleteSelect.value === "" ? null : taskCompleteSelect.value === "true",
             taskType: taskTypeSelect.value || null,
             dueDateFrom: dueDateFromInput.value || null,
             dueDateTo: dueDateToInput.value || null

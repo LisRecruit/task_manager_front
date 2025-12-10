@@ -1,6 +1,7 @@
 import { get, patch, buildUrl, del } from "./httpMethods.js";
 import { buildFilterQueryParams } from "./tableFilter.js";
 import { populateTable } from "./tableBuilder.js";
+import { getToken } from "./authUtils.js"
 
 export async function getMyTasks(filter = {}) {
     const token = getToken();
@@ -27,7 +28,7 @@ export async function getSubordinatesTasks(filter = {}) {
 }
 
 export async function deleteTask(id) {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     if (!token) throw new Error("No token found");
     try {
         await del(`task/delete/${id}`, token);
@@ -39,10 +40,13 @@ export async function deleteTask(id) {
 }
 
 export async function updateTaskField(id, field, value) {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     const body = { id };
     body[field] = value;
-
+    if (!body.id) {
+        console.error("Update payload is missing task ID.");
+        return;
+    }
     try {
         await patch("task/edit", body, token);
         console.log(`Task ${id} field ${field} updated to`, value);
@@ -50,17 +54,38 @@ export async function updateTaskField(id, field, value) {
         console.error("Failed to update task field", e);
     }
 }
+
+export async function updateTaskBatch(body) {
+    const token = getToken();
+    if (!token) throw new Error("No token found");
+
+    // В API має бути поле 'id'
+    if (!body.id) {
+        console.error("Update payload is missing task ID.");
+        return;
+    }
+
+    try {
+        await patch("task/edit", body, token);
+        console.log(`Task ${body.id} fields updated successfully.`);
+    } catch (e) {
+        console.error("Failed to update task fields batch", e);
+        throw e;
+    }
+}
+
+
 export async function updateTaskCheckbox(id, value) {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
     await patch(`task/complete/${id}`, {}, token);
 }
 
-function getToken() {
-    const token = localStorage.getItem("token");
-    if (!token) throw new Error("No token found");
-    return token;
-}
+//function getToken() {
+//    const token = localStorage.getItem("token");
+//    if (!token) throw new Error("No token found");
+//    return token;
+//}
 
 
 

@@ -1,7 +1,6 @@
 import { canEdit } from"./authUtils.js";
-import {updateTaskField, updateTaskCheckbox, deleteTask} from "./tableApi.js";
-
-const TASK_TYPE_VALUES = ["ONE_TIME", "POST_BILL", "POST_PAYMENT", "MATCH_BANK", "RECONCILE_BANK", "POST_JOURNAL"];
+import {updateTaskField, updateTaskBatch, updateTaskCheckbox, deleteTask} from "./tableApi.js";
+import { TASK_TYPE_VALUES } from "./settings.js";
 
 export function populateTable(tasks) {
    const tbody = document.getElementById("taskBody");
@@ -14,11 +13,15 @@ function createRow(task) {
     const row = document.createElement("tr");
 
     row.appendChild(buildTextCell(task.id));
-    row.appendChild(buildEditableCheckbox(task, "taskComplete"));
+    row.appendChild(buildTaskCompleteIndicator(task));
     row.appendChild(buildEditableEnum(task, "taskType", TASK_TYPE_VALUES));
-    row.appendChild(buildEditableInput(task, "dueDate", "date"));
-    row.appendChild(buildEditableInput(task, "period", "month"));
-    row.appendChild(buildTextCell(task.completionDate));
+//    row.appendChild(buildEditableInput(task, "dueDate", "date"));
+    row.appendChild(buildEditableInput({ ...task, dueDate: formatDate(task.dueDate, "MM dd yyyy")}, "dueDate", "text"));
+//    row.appendChild(buildEditableInput(task, "period", "month"));
+//    row.appendChild(buildEditableInput({ ...task, period: formatDate(task.period, "yyyy MMM")}, "period", "text"));
+    row.appendChild(buildEditableMonth(task, "period"));
+//    row.appendChild(buildTextCell(task.completionDate));
+    row.appendChild(buildTextCell(formatDate(task.completionDate, "MM dd yyyy")));
     row.appendChild(buildTextCell(task.daysOverdue));
     row.appendChild(buildEditableInput(task, "taskDescription", "text"));
     row.appendChild(buildTextCell(task.taskSetBy));
@@ -26,165 +29,62 @@ function createRow(task) {
     row.appendChild(buildEditableInput(task, "directManagerNote", "text"));
     row.appendChild(buildEditableInput(task, "responsiblePersonNote", "text"));
 
-    const editCell = wrapCell(buildEditButtons(row, task));
-    row.appendChild(editCell);
-
+    row.appendChild(wrapCell(buildEditButtons(row, task)));
     row.appendChild(buildDeleteButton(task));
 
     return row;
 }
 
+
 function buildEditableInput(task, field, type) {
     const input = document.createElement("input");
     input.type = type;
     input.value = task[field] ?? "";
-    input.disabled = !canEdit(field, task);
     input.dataset.field = field;
+    input.disabled=true;
+
+
     return wrapCell(input);
 }
 
-function buildEditButtons(row, task) {
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "✏️";
+function buildTaskCompleteIndicator(task) {
+    const btn = document.createElement("button");
+    btn.dataset.field = "taskComplete";
 
-    editBtn.addEventListener("click", () => {
-        const cells = row.querySelectorAll("input, select");
-        const original = {};
-//        cells.forEach(el => {
-//            if (!el.dataset.field || el.dataset.field === "taskComplete") return;
-//            el.disabled = false;
-//            original[el.dataset.field] = el.value ?? el.checked;
-//        });
+    if(task.taskComplete) {
+        btn.textContent = "✔️";
+        btn.style.color = "green";
+        btn.disabled = true;
+        btn.title = "Task completed";
+    } else {
+        btn.textContent = "❌";
+        btn.style.color = "red";
+        btn.title = "Mark complete";
+    }
 
-          cells.forEach(el => {
-                if (!el.dataset.field) return;
-                // taskComplete не редактируется через edit, есть отдельный запрос
-                if (el.dataset.field === "taskComplete") return;
+    btn.addEventListener("click", async () => {
+        if(task.taskComplete) return;
 
-                // включаем только если canEdit возвращает true
-                if (canEdit(el.dataset.field, task)) {
-                    el.disabled = false;
-                    original[el.dataset.field] = el.value ?? el.checked;
-                }
-            });
+        if(!confirm("Complete this task?")) return;
 
-        const saveBtn = document.createElement("button");
-        saveBtn.textContent = "💾";
-        const cancelBtn = document.createElement("button");
-        cancelBtn.textContent = "❌";
-
-        const parent = editBtn.parentElement;
-        parent.innerHTML = "";
-        parent.appendChild(saveBtn);
-        parent.appendChild(cancelBtn);
-
-        saveBtn.addEventListener("click", async () => {
-            const updated = { taskId: task.id };
-            cells.forEach(el => {
-                if (!el.dataset.field || el.dataset.field === "taskComplete") return;
-                updated[el.dataset.field] = el.type === "checkbox" ? el.checked : el.value;
-            });
-            await updateTaskField(task.id, updated);
-            cells.forEach(el => el.disabled = true);
-            parent.innerHTML = "";
-            parent.appendChild(editBtn);
-        });
-
-        cancelBtn.addEventListener("click", () => {
-            cells.forEach(el => {
-                if (!el.dataset.field || el.dataset.field === "taskComplete") return;
-                if (el.type === "checkbox") el.checked = original[el.dataset.field];
-                else el.value = original[el.dataset.field];
-                el.disabled = true;
-            });
-            parent.innerHTML = "";
-            parent.appendChild(editBtn);
-        });
+        try {
+            await updateTaskCheckbox(task.id, true);
+            btn.textContent = "✔️";
+            btn.style.color = "green";
+            btn.disabled = true;
+        } catch(err) {
+            console.error(err);
+            alert("Error");
+        }
     });
 
-    return editBtn;
+    return wrapCell(btn);
 }
 
-function wrapCell(element) {
-    const td = document.createElement("td");
-    td.appendChild(element);
-    return td;
-}
-
-function buildTextCell(value) {
-    const span = document.createElement("span");
-    span.textContent = (typeof value === "object" && value !== null) ? JSON.stringify(value) : value ?? "";
-    return wrapCell(span);
-}
-
-function buildEditableText(task, field, isEditable = true) {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = task[field] ?? "";
-    isEditable = canEdit(field, task);
-    input.disabled = !isEditable;
-
-    input.addEventListener("change", () => updateTaskField(task.id, field, input.value));
-
-    return wrapCell(input);
-}
-
-function buildEditableCheckbox(task, field, isEditable = true) {
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.checked = task[field] ?? false;
-    isEditable = canEdit(field, task);
-//    input.disabled = !isEditable || task[field] === true;
-    input.disabled = !isEditable;
-
-        input.addEventListener("change", async () => {
-
-            if (!input.checked) {
-                input.checked = true;
-                return;
-            }
-
-            try {
-                await updateTaskCheckbox(task.id, input.checked);
-                console.log(`Task ${task.id} marked complete`);
-            } catch (e) {
-                console.error("Failed to update task checkbox", e);
-                input.checked = false;
-            }
-    });
-
-    return wrapCell(input);
-}
-
-function buildEditableDate(task, field, isEditable = true) {
-    const input = document.createElement("input");
-    input.type = "date";
-    input.value = task[field] ?? "";
-    isEditable = canEdit(field, task);
-    input.disabled = !isEditable;
-
-    input.addEventListener("change", () => updateTaskField(task.id, field, input.value));
-
-    return wrapCell(input);
-}
-
-function buildEditablePeriod (task, field, isEditable = true) {
-    const input = document.createElement("input");
-    input.type = "month";
-    input.value = task[field] ?? "";
-    isEditable = canEdit(field, task);
-    input.disabled = !isEditable;
-
-    input.addEventListener("change", () => updateTaskField(task.id, field, input.value));
-
-    return wrapCell(input);
-}
-
-// ENUM
-function buildEditableEnum(task, field, options = [], isEditable = true) {
+function buildEditableEnum(task, field, options = []) {
     const select = document.createElement("select");
-    isEditable = canEdit(field, task);
-    select.disabled = !isEditable;
+    select.dataset.field = field;
+    select.disabled = true;
 
     options.forEach(opt => {
         const option = document.createElement("option");
@@ -194,23 +94,226 @@ function buildEditableEnum(task, field, options = [], isEditable = true) {
         select.appendChild(option);
     });
 
-    select.addEventListener("change", () => updateTaskField(task.id, field, select.value));
-
     return wrapCell(select);
 }
+
 function buildDeleteButton(task) {
     const btn = document.createElement("button");
-    btn.textContent = "❌️";
+    btn.textContent = "❌️ delete";
     btn.title = "Delete task";
     btn.addEventListener("click", async () => {
         if (!confirm("Are you sure you want to delete this task?")) return;
-        const token = localStorage.getItem("token");
         try {
-            await deleteTask(task.id);;
+            await deleteTask(task.id);
             btn.closest("tr").remove();
         } catch (e) {
             console.error("Failed to delete task", e);
         }
     });
     return wrapCell(btn);
+}
+
+function exitEditMode(row, buttonContainer, editBtn, originalValues) {
+    const cells = row.querySelectorAll("input, select");
+
+    cells.forEach(el => {
+        const field = el.dataset.field;
+        if (!field) return;
+        if (originalValues.hasOwnProperty(field)) {
+            if (el.type === "checkbox") el.checked = originalValues[field];
+            else el.value = originalValues[field];
+        }
+        el.disabled = true;
+        el.onchange = null;
+        if (el.type === 'checkbox') {
+             el.style.pointerEvents = 'none';
+        }
+    });
+
+    const completeBtn = row.querySelector('[data-field="taskComplete"]');
+    if (completeBtn && !originalValues.taskComplete) {
+        completeBtn.disabled = false;
+        completeBtn.style.opacity = 1;
+        completeBtn.style.pointerEvents = 'auto';
+    }
+
+    buttonContainer.innerHTML = "";
+    buttonContainer.appendChild(editBtn);
+}
+
+function buildEditButtons(row, task) {
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✏️ Edit";
+    editBtn.title = "Edit task";
+    editBtn.className = "bg-yellow-500 text-white hover:bg-yellow-600 p-1 rounded";
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.appendChild(editBtn);
+
+    editBtn.addEventListener("click", () => {
+        const cells = row.querySelectorAll("input, select");
+        const original = {};
+        let isAnyFieldEditable = false;
+
+        const completeBtn = row.querySelector('[data-field="taskComplete"]');
+            if (completeBtn) {
+                completeBtn.disabled = true;
+                completeBtn.style.opacity = 0.5;
+                completeBtn.style.pointerEvents = 'none';
+            }
+
+        cells.forEach(el => {
+            const field = el.dataset.field;
+            if (!field) return;
+            original[field] = el.type === "checkbox" ? el.checked : el.value;
+            if (canEdit(field, task)) {
+                el.disabled = false;
+                isAnyFieldEditable = true;
+                if (field === "taskComplete") {
+                    el.style.pointerEvents = 'auto';
+                    el.onchange = async (e) => {
+                        if (original[field] && !e.target.checked) {
+                            console.warn("Отмена выполнения задачи запрещена.");
+                            e.target.checked = true;
+                            return;
+                        }
+                        if (e.target.checked) {
+                            try {
+                                await updateTaskCheckbox(task.id, e.target.checked);
+                                exitEditMode(row, buttonContainer, editBtn, original);
+                            } catch (err) {
+                                console.error(`Ошибка обновления задачи ${task.id}.`, err);
+                                e.target.checked = false;
+                            }
+                        }
+                    };
+                }
+            } else {
+                el.disabled = true;
+                if (el.type === 'checkbox') {
+                     el.style.pointerEvents = 'none';
+                }
+            }
+        });
+
+        if (!isAnyFieldEditable) {
+            console.warn("У вас нет прав на редактирование полей в этой задаче.");
+            return;
+        }
+
+        const saveBtn = document.createElement("button");
+        saveBtn.textContent = "💾 Save";
+        saveBtn.title = "Save changes";
+        saveBtn.className = "bg-green-500 text-white hover:bg-green-600 p-1 rounded mr-2";
+
+        const cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "❌ Cancel";
+        cancelBtn.title = "Cancel editing";
+        cancelBtn.className = "bg-red-400 text-white hover:bg-red-500 p-1 rounded";
+
+        buttonContainer.innerHTML = "";
+        buttonContainer.appendChild(saveBtn);
+        buttonContainer.appendChild(cancelBtn);
+
+        saveBtn.addEventListener("click", async () => {
+            const updatedBody = { id: task.id };
+            let changed = false;
+
+            cells.forEach(el => {
+                const field = el.dataset.field;
+                if (!field || field === "taskComplete" || el.disabled) return;
+
+                const newValue = el.type === "checkbox" ? el.checked : el.value;
+
+                if (original[field] !== newValue) {
+                    updatedBody[field] = newValue;
+                    changed = true;
+                }
+            });
+            try {
+                if (changed) {
+                    await updateTaskBatch(updatedBody);
+                } else {
+                    console.log("Нет изменений для сохранения.");
+                }
+            } catch (e) {
+                console.error(`Ошибка сохранения задачи ${task.id}.`, e);
+                console.error("Batch update failed, restoring original values.", e);
+            }
+            exitEditMode(row, buttonContainer, editBtn, original);
+        });
+        cancelBtn.addEventListener("click", () => {
+            exitEditMode(row, buttonContainer, editBtn, original);
+        });
+    });
+
+    return buttonContainer;
+}
+function wrapCell(element) {
+    const td = document.createElement("td");
+    td.appendChild(element);
+    return td;
+}
+
+function buildTextCell(value) {
+    const span = document.createElement("span");
+    span.textContent = value ?? "";
+    return wrapCell(span);
+}
+
+function formatDate(value, formatType) {
+    if (!value) return "";
+
+    const date = new Date(value);
+
+    if (isNaN(date)) return value;
+
+    switch(formatType) {
+        case "MM dd yyyy":
+            return `${String(date.getMonth() + 1).padStart(2,'0')} ${String(date.getDate()).padStart(2,'0')} ${date.getFullYear()}`;
+        case "yyyy MMM":
+            return `${date.getFullYear()} ${date.toLocaleString('en-US', { month: 'short' })}`;
+        default:
+            return value;
+    }
+}
+
+//function buildEditableMonth(task, field) {
+//    const input = document.createElement("input");
+//    input.type = "month";
+//    if(task[field]) {
+//        const [year, monthName] = task[field].split(" ");
+//        const monthNum = new Date(`${monthName} 1, ${year}`).getMonth() + 1;
+//        input.value = `${year}-${String(monthNum).padStart(2,'0')}`;
+//    }
+//    input.dataset.field = field;
+//    input.disabled = true;
+//
+//    return wrapCell(input);
+//}
+function buildEditableMonth(task, field) {
+    const input = document.createElement("input");
+    input.type = "month";
+
+    if(task[field]) {
+        const formattedDateString = formatDate(task[field], "yyyy MMM");
+
+        const [year, monthName] = formattedDateString.split(" ");
+
+        const dateMs = Date.parse(`${monthName} 1, ${year}`);
+
+        if (!isNaN(dateMs)) {
+            const date = new Date(dateMs);
+            const monthNum = date.getMonth() + 1;
+            input.value = `${year}-${String(monthNum).padStart(2,'0')}`;
+        } else {
+            input.value = "";
+            console.warn(`Failed to parse the 'period' field: ${task[field]}. Expected format: "yyyy MMM"`);
+        }
+    }
+
+    input.dataset.field = field;
+    input.disabled = true;
+
+    return wrapCell(input);
 }
