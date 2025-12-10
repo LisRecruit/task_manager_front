@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Registration</h1>
+
+
+            <div class="login-box" >
+
+                <label for="username">Username</label>
+                <input id="username" type="text"/>
+                <label for="password">Password</label>
+                <input id="password" type="password"/>
+                <label for="password">Repeat password</label>
+                <input id="repeatPassword" type="password"/>
+
+                <button onclick="registration()">Create account</button>
+
+                <p id="error" class="error"></p>
+            </div>
+
+    </div>
+    <script type="module" src="../js/registration.js"></script>
+</body>
+</html>

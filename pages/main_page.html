@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task manager</title>
+    <link rel="stylesheet" href="../css/table.css">
+</head>
+<body>
+    <div class="container">
+        <div class="topMenu">
+<!--            <button onclick="getMyTasks()">My tasks</button>-->
+<!--            <button onclick="getSubordinatesTasks()">Subordinates tasks</button>-->
+            <button id="myTasksBtn">My tasks</button>
+            <button id="subsTasksBtn">Subordinates tasks</button>
+        </div>
+
+        <div class="filters">
+            <label>
+                Task complete:
+                <select id="filterTaskComplete">
+                    <option value="">All</option>
+                    <option value="false" selected>In progress</option>
+                    <option value="true">Complete</option>
+                </select>
+            </label>
+
+            <label>
+                Task type:
+                <select id="filterTaskType">
+                    <option value="">All</option>
+                    <option value="ONE_TIME">ONE_TIME</option>
+                    <option value="POST_BILL">POST_BILL</option>
+                    <option value="POST_PAYMENT">POST_PAYMENT</option>
+                    <option value="MATCH_BANK">MATCH_BANK</option>
+                    <option value="RECONCILE_BANK">RECONCILE_BANK</option>
+                    <option value="POST_JOURNAL">POST_JOURNAL</option>
+                </select>
+            </label>
+
+            <label>
+                Due date from:
+                <input type="date" id="filterDueDateFrom">
+            </label>
+
+            <label>
+                Due date to:
+                <input type="date" id="filterDueDateTo">
+            </label>
+
+            <button id="applyFilters">Apply</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="table">
+                <thead>
+
+                    <th>ID</th>
+                    <!--                checkbox-->
+                    <th>Task complete</th>
+                    <th>Task type</th>
+                    <th>Due date</th>
+                    <th>Period</th>
+                    <th>Completion date</th>
+                    <th>Days overdue</th>
+                    <th>Task description</th>
+                    <th>Task set by</th>
+                    <th>Responsible person</th>
+                    <th>Direct manager note</th>
+                    <th>Responsible person note</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody id="taskBody">
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script type="module" src="../js/table.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            getMyTasks();
+        });
+    </script>
+
+</body>
+</html>
