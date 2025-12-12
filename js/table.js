@@ -1,16 +1,8 @@
-import { initTableFilters } from "./tableFilter.js";
+import { initTableFilters, fillTaskTypeFilter } from "./tableFilter.js";
 import {getMyTasks, getSubordinatesTasks } from "./tableApi.js";
+import { openCreateTaskModal, initCreateTaskModal } from "./createTaskModal.js";
 
 let currentGetFn = getMyTasks;
-
-//window.getMyTasksWithFilter = () => {
-//    currentGetFn = getMyTasks;
-//    return getMyTasks({ taskComplete: false });
-//};
-//window.getSubordinatesTasksWithFilter = () => {
-//    currentGetFn = getSubordinatesTasks;
-//    return getSubordinatesTasks({ taskComplete: false });
-//};
 
 document.addEventListener("DOMContentLoaded", () => {
     currentGetFn({ taskComplete: false });
@@ -20,6 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
         currentGetFn({ taskComplete: false });
     });
 
+    initCreateTaskModal(() => currentGetFn({ taskComplete: false }));
+
+
+    document.getElementById("createTaskBtn").addEventListener("click", ()=> {
+         openCreateTaskModal();
+    })
+
     document.getElementById("subsTasksBtn").addEventListener("click", () => {
         currentGetFn = getSubordinatesTasks;
         initTableFilters(currentGetFn);
@@ -27,4 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     initTableFilters((filter) => currentGetFn(filter));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    fillTaskTypeFilter();
+    currentGetFn({ taskComplete: false });
 });

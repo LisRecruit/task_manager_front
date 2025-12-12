@@ -15,6 +15,8 @@ export async function getMyTasks(filter = {}) {
          }
 
 }
+
+
 export async function getSubordinatesTasks(filter = {}) {
     const token = getToken();
     const filterQuery = buildFilterQueryParams(filter);
@@ -81,11 +83,23 @@ export async function updateTaskCheckbox(id, value) {
     await patch(`task/complete/${id}`, {}, token);
 }
 
-//function getToken() {
-//    const token = localStorage.getItem("token");
-//    if (!token) throw new Error("No token found");
-//    return token;
-//}
+export async function createTask(taskBody) {
+    const token = getToken();
+
+    if (!token) {
+        throw new Error("No token found");
+    }
+
+    try {
+        const createdTask = await post("task/create", taskBody, token);
+        console.log("Task created successfully:", createdTask);
+        return createdTask;
+    } catch (e) {
+        console.error("Failed to create task", e);
+        throw e;
+    }
+}
+
 
 
 

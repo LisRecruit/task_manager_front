@@ -69,6 +69,9 @@ export async function del(endPoint, token = null) {
     return null;
 }
 
+
+
+
 export function buildUrl (path){
     return BASE_URL+path;
 }

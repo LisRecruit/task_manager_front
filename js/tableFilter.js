@@ -1,3 +1,5 @@
+import { TASK_TYPE_VALUES } from "./settings.js";
+
 export function initTableFilters(getTasksFn) {
     const taskCompleteSelect = document.getElementById("filterTaskComplete");
     const taskTypeSelect = document.getElementById("filterTaskType");
@@ -24,4 +26,22 @@ export function buildFilterQueryParams(filter = {}) {
     if (filter.dueDateFrom) params.append("dueDateFrom", filter.dueDateFrom);
     if (filter.dueDateTo) params.append("dueDateTo", filter.dueDateTo);
     return params.toString();
+}
+export function fillTaskTypeFilter() {
+    const select = document.getElementById("filterTaskType");
+    if (!select) return;
+
+    select.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "";
+    allOption.textContent = "All";
+    select.appendChild(allOption);
+
+    TASK_TYPE_VALUES.forEach(type => {
+        const opt = document.createElement("option");
+        opt.value = type;
+        opt.textContent = type;
+        select.appendChild(opt);
+    });
 }

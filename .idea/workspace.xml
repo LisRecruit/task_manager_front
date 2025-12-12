@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="working with table" />
+    <list default="true" id="6ba88cf0-4025-4a94-8a6d-3a725e64baca" name="Changes" comment="missed files">
+      <change afterPath="$PROJECT_DIR$/js/createTaskModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/table.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/table.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/httpMethods.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/httpMethods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/table.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/table.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/tableApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/tableApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/tableFilter.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/tableFilter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/main_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/main_page.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,15 +32,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Lis/IdeaProjects/task_manager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Lis/IdeaProjects/task_manager_front"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="task_manager_front" />
@@ -79,13 +89,22 @@
       <option name="project" value="LOCAL" />
       <updated>1765368832089</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="missed files">
+      <option name="closed" value="true" />
+      <created>1765369454971</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1765369454971</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="worked with table on main_page" />
     <MESSAGE value="divided table.js to tableApi.js, tableBuilder.js, tableFilter.js&#10;updated table" />
     <MESSAGE value="working with table" />
-    <option name="LAST_COMMIT_MESSAGE" value="working with table" />
+    <MESSAGE value="missed files" />
+    <option name="LAST_COMMIT_MESSAGE" value="missed files" />
   </component>
 </project>

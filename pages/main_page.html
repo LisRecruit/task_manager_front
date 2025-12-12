@@ -8,10 +8,9 @@
 <body>
     <div class="container">
         <div class="topMenu">
-<!--            <button onclick="getMyTasks()">My tasks</button>-->
-<!--            <button onclick="getSubordinatesTasks()">Subordinates tasks</button>-->
             <button id="myTasksBtn">My tasks</button>
             <button id="subsTasksBtn">Subordinates tasks</button>
+            <button id="createTaskBtn">Create new task</button>
         </div>
 
         <div class="filters">
@@ -26,15 +25,7 @@
 
             <label>
                 Task type:
-                <select id="filterTaskType">
-                    <option value="">All</option>
-                    <option value="ONE_TIME">ONE_TIME</option>
-                    <option value="POST_BILL">POST_BILL</option>
-                    <option value="POST_PAYMENT">POST_PAYMENT</option>
-                    <option value="MATCH_BANK">MATCH_BANK</option>
-                    <option value="RECONCILE_BANK">RECONCILE_BANK</option>
-                    <option value="POST_JOURNAL">POST_JOURNAL</option>
-                </select>
+                <select id="filterTaskType"></select>
             </label>
 
             <label>
@@ -76,12 +67,51 @@
             </table>
         </div>
     </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+
+            <h2>Create new task</h2>
+
+            <label>Task description:
+                <textarea id="taskDescription"></textarea>
+            </label>
+
+            <label>Responsible person ID:
+                <input type="number" id="responsiblePersonId">
+            </label>
+
+            <label>Due date:
+                <input type="date" id="taskDueDate">
+            </label>
+
+            <label>Task type:
+                <select id="taskTypeSelect"></select>
+            </label>
+
+            <label>Repeatable:
+                <input type="checkbox" id="repeatable">
+            </label>
+
+            <label>Repeatable type:
+                <select id="repeatableTypeSelect"></select>
+            </label>
+
+            <label>Period:
+                <input type="month" id="period" required>
+            </label>
+
+            <button id="saveTaskBtn">Save</button>
+        </div>
+    </div>
+
     <script type="module" src="../js/table.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            getMyTasks();
-        });
-    </script>
+<!--    <script>-->
+<!--        document.addEventListener("DOMContentLoaded", () => {-->
+<!--            getMyTasks();-->
+<!--        });-->
+<!--    </script>-->
 
 </body>
 </html>
